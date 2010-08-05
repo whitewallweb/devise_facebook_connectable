@@ -28,8 +28,8 @@ module Devise #:nodoc:
             user = klass.authenticate_with_facebook_connect(:uid => facebook_user.uid)
 
             if user.present?
-              success!(user)
               user.on_after_facebook_login(facebook_session)
+              success!(user)
             else
               if klass.facebook_auto_create_account?
                 user = returning(klass.new) do |u|
