@@ -103,7 +103,26 @@ module Devise #:nodoc:
         #
         def on_before_facebook_connect(facebook_session)
           if self.respond_to?(:before_facebook_connect)
-            self.send(:before_facebook_connect, facebook_session) rescue nil
+            self.send(:before_facebook_connect, facebook_session)
+          end
+        end
+        
+        # Hook that gets called *after* logging in from facebook
+        # Used to update information, or do further processing when an existing user signs into facebook again
+        #
+        # Default: Do nothing.
+        #
+        # == Example:
+        #
+        #   # Overridden in Facebook Connect:able model, e.g. "User".
+        #   #
+        #   def on_after_facebook_login(fb_session)
+        #     # See "on_before_facebook_connect" example.
+        #   end
+        #
+        def on_after_facebook_login(facebook_session)
+          if self.respond_to?(:after_facebook_login)
+            self.send(:after_facebook_login, facebook_session)            
           end
         end
 
@@ -122,7 +141,7 @@ module Devise #:nodoc:
         #
         def on_after_facebook_connect(facebook_session)
           if self.respond_to?(:after_facebook_connect)
-            self.send(:after_facebook_connect, facebook_session) rescue nil
+            self.send(:after_facebook_connect, facebook_session)
           end
         end
 

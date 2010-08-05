@@ -29,6 +29,7 @@ module Devise #:nodoc:
 
             if user.present?
               success!(user)
+              u.on_after_facebook_login(facebook_session)
             else
               if klass.facebook_auto_create_account?
                 user = returning(klass.new) do |u|
